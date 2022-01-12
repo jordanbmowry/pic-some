@@ -21,8 +21,22 @@ function ContextProvider(props) {
     fetchPhotos();
   }, []);
 
+  const toggleFavorite = (id) => {
+    const mappedPhotos = allPhotos.map((photo) => {
+      if (photo.id === id) {
+        return {
+          ...photo,
+          isFavorite: !photo.isFavorite,
+        };
+      }
+      return photo;
+    });
+    setAllPhotos(mappedPhotos);
+  };
+
   const value = {
     allPhotos,
+    toggleFavorite,
   };
 
   return <Context.Provider value={value}>{props.children}</Context.Provider>;
