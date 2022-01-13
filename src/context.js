@@ -44,6 +44,7 @@ function ContextProvider(props) {
     allPhotos,
     toggleFavorite,
     addItemToCart,
+    cartItems,
   };
 
   return <Context.Provider value={value}>{props.children}</Context.Provider>;

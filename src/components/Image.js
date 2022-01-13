@@ -4,7 +4,11 @@ import { Context } from '../context';
 
 export default function Image({ className, img }) {
   const [hovered, setHovered] = useState(false);
-  const { toggleFavorite, addItemToCart } = useContext(Context);
+  const { toggleFavorite, addItemToCart, cartItems } = useContext(Context);
+
+  const isImgInCart = (img) => {
+    return cartItems.some((item) => item?.id === img.id);
+  };
 
   function heartIcon() {
     if (img.isFavorite) {
@@ -25,12 +29,19 @@ export default function Image({ className, img }) {
     return null;
   }
 
-  const cartIcon = hovered && (
-    <i
-      className='ri-add-circle-line cart'
-      onClick={() => addItemToCart(img)}
-    ></i>
-  );
+  function cartIcon() {
+    if (isImgInCart(img)) {
+      return <i className='ri-shopping-cart-fill cart'></i>;
+    } else if (hovered) {
+      return (
+        <i
+          className='ri-add-circle-line cart'
+          onClick={() => addItemToCart(img)}
+        ></i>
+      );
+    }
+    return null;
+  }
 
   return (
     <div
@@ -39,7 +50,7 @@ export default function Image({ className, img }) {
       onMouseLeave={() => setHovered(false)}
     >
       {heartIcon()}
-      {cartIcon}
+      {cartIcon()}
       <img src={img.url} alt='unsplash img' className='image-grid' />
     </div>
   );
