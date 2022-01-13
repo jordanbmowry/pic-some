@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { Context } from '../context';
 
 export default function Image({ className, img }) {
   const [hovered, setHovered] = useState(false);
-  const { toggleFavorite } = useContext(Context);
+  const { toggleFavorite, addItemToCart } = useContext(Context);
 
   function heartIcon() {
     if (img.isFavorite) {
@@ -24,7 +25,12 @@ export default function Image({ className, img }) {
     return null;
   }
 
-  const cartIcon = hovered && <i className='ri-add-circle-line cart'></i>;
+  const cartIcon = hovered && (
+    <i
+      className='ri-add-circle-line cart'
+      onClick={() => addItemToCart(img)}
+    ></i>
+  );
 
   return (
     <div
@@ -38,3 +44,12 @@ export default function Image({ className, img }) {
     </div>
   );
 }
+
+Image.propTypes = {
+  className: PropTypes.string,
+  img: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+  }),
+};

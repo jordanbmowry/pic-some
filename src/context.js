@@ -5,6 +5,8 @@ const Context = createContext();
 
 function ContextProvider(props) {
   const [allPhotos, setAllPhotos] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+
   const { get } = useFetch('https://raw.githubusercontent.com');
 
   useEffect(() => {
@@ -20,6 +22,10 @@ function ContextProvider(props) {
     }
     fetchPhotos();
   }, []);
+
+  const addItemToCart = (item) => {
+    setCartItems((prevItems) => [...prevItems, item]);
+  };
 
   const toggleFavorite = (id) => {
     const mappedPhotos = allPhotos.map((photo) => {
@@ -37,6 +43,7 @@ function ContextProvider(props) {
   const value = {
     allPhotos,
     toggleFavorite,
+    addItemToCart,
   };
 
   return <Context.Provider value={value}>{props.children}</Context.Provider>;
