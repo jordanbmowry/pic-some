@@ -23,6 +23,10 @@ function ContextProvider(props) {
     fetchPhotos();
   }, []);
 
+  const emptyCart = () => {
+    setCartItems([]);
+  };
+
   const addItemToCart = (item) => {
     setCartItems((prevItems) => [...prevItems, item]);
   };
@@ -52,6 +56,7 @@ function ContextProvider(props) {
     addItemToCart,
     cartItems,
     removeItemFromCart,
+    emptyCart,
   };
 
   return <Context.Provider value={value}>{props.children}</Context.Provider>;
